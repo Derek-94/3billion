@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { animalsAPI } from "../../api/api";
 import Animals from "../presenter/Animals";
 
 const AnimalsContainer = () => {
   const [animals, setAnimals] = useState([]);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     const response = await animalsAPI.get();
     setAnimals(response);
-  };
+  }, []);
 
   useEffect(() => {
     loadData();
-  });
+  }, [loadData]);
 
   return (
     <>

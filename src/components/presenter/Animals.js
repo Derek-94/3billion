@@ -1,24 +1,73 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Animals = ({ animalList }) => {
+  const [animalState, setAnimalState] = useState([]);
+
+  const onClickLike = (id) => {
+    setAnimalState(() =>
+      animalState.map((ani) =>
+        ani.id === id ? { ...ani, like: !ani.like, dislike: false } : ani
+      )
+    );
+  };
+
+  const onClickDislike = (id) => {
+    setAnimalState(() =>
+      animalState.map((ani) =>
+        ani.id === id ? { ...ani, like: false, dislike: !ani.dislike } : ani
+      )
+    );
+  };
+
+  useEffect(() => {
+    let animalStatesAdded = [];
+    for (let i = 0; i < animalList.length; i++) {
+      animalStatesAdded.push({
+        ...animalList[i],
+        like: false,
+        dislike: false,
+      });
+    }
+    console.log(animalStatesAdded);
+    setAnimalState(() => animalStatesAdded);
+  }, [animalList]);
+
   return (
     <AnimalsLayout>
       <AnimalGallery>
-        {animalList.map((animal) => (
+        {animalState.map((animal) => (
           <AnimalArticle key={animal.id}>
             <AnimalImg src={animal.img_url} alt="img" />
             <ButtonWrapper>
-              <LikeButton>좋아요</LikeButton>
-              <DislikeButton>싫어요</DislikeButton>
+              {animal.like ? (
+                <LikeButtonActivate onClick={() => onClickLike(animal.id)}>
+                  좋아요
+                </LikeButtonActivate>
+              ) : (
+                <LikeButton onClick={() => onClickLike(animal.id)}>
+                  좋아요
+                </LikeButton>
+              )}
+              {animal.dislike ? (
+                <DislikeButtonActivate
+                  onClick={() => onClickDislike(animal.id)}
+                >
+                  싫어요
+                </DislikeButtonActivate>
+              ) : (
+                <DislikeButton onClick={() => onClickDislike(animal.id)}>
+                  싫어요
+                </DislikeButton>
+              )}
             </ButtonWrapper>
           </AnimalArticle>
         ))}
       </AnimalGallery>
       <AnimalListWrapper>
         <AnimalList>
-          {animalList.map((animal) => (
-            <h2>{animal.name}</h2>
+          {animalState.map((animal) => (
+            <h2 key={animal.id}>{animal.name}</h2>
           ))}
         </AnimalList>
         <ClassifyButton>좋아하는 동물들 나누기</ClassifyButton>
@@ -62,10 +111,15 @@ const LikeButton = styled.button`
   background-color: white;
   border: 1px #a5a5a5 solid;
   margin-right: 15px;
-  &:active {
-    background-color: blue;
-    color: white;
-  }
+`;
+
+const LikeButtonActivate = styled.button`
+  background-color: #006ebf;
+  color: white;
+  width: 135px;
+  height: 45px;
+  border: 1px #a5a5a5 solid;
+  margin-right: 15px;
 `;
 
 const DislikeButton = styled.button`
@@ -77,6 +131,14 @@ const DislikeButton = styled.button`
     background-color: orange;
     color: white;
   }
+`;
+
+const DislikeButtonActivate = styled.button`
+  background-color: orange;
+  color: white;
+  width: 135px;
+  height: 45px;
+  border: 1px #a5a5a5 solid;
 `;
 
 const AnimalListWrapper = styled.section`
