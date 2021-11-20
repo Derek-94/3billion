@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import styled from "styled-components";
 
 const Animals = ({ animalList }) => {
+  const history = useHistory();
   const [animalState, setAnimalState] = useState([]);
 
   const onClickLike = (id) => {
@@ -18,6 +20,15 @@ const Animals = ({ animalList }) => {
         ani.id === id ? { ...ani, like: false, dislike: !ani.dislike } : ani
       )
     );
+  };
+
+  const onClassify = () => {
+    history.push({
+      pathname: "/classification",
+      state: {
+        animals: animalState,
+      },
+    });
   };
 
   useEffect(() => {
@@ -84,7 +95,9 @@ const Animals = ({ animalList }) => {
             </>
           ))}
         </AnimalList>
-        <ClassifyButton>좋아하는 동물들 나누기</ClassifyButton>
+        <ClassifyButton onClick={onClassify}>
+          좋아하는 동물들 나누기
+        </ClassifyButton>
       </AnimalListWrapper>
     </AnimalsLayout>
   );
@@ -125,6 +138,7 @@ const LikeButton = styled.button`
   background-color: white;
   border: 1px #a5a5a5 solid;
   margin-right: 15px;
+  cursor: pointer;
 `;
 
 const LikeButtonActivate = styled.button`
@@ -134,6 +148,7 @@ const LikeButtonActivate = styled.button`
   height: 45px;
   border: 1px #a5a5a5 solid;
   margin-right: 15px;
+  cursor: pointer;
 `;
 
 const DislikeButton = styled.button`
@@ -141,10 +156,7 @@ const DislikeButton = styled.button`
   height: 45px;
   background-color: white;
   border: 1px #a5a5a5 solid;
-  &:active {
-    background-color: orange;
-    color: white;
-  }
+  cursor: pointer;
 `;
 
 const DislikeButtonActivate = styled.button`
@@ -153,6 +165,7 @@ const DislikeButtonActivate = styled.button`
   width: 135px;
   height: 45px;
   border: 1px #a5a5a5 solid;
+  cursor: pointer;
 `;
 
 const AnimalListWrapper = styled.section`
@@ -175,10 +188,12 @@ const AnimalText = styled.h1`
 `;
 
 const ClassifyButton = styled.button`
+  border: none;
   margin-top: 30px;
   height: 80px;
   font-weight: bold;
   font-size: 24px;
   background-color: #dcdcdc;
   color: #323232;
+  cursor: pointer;
 `;

@@ -1,13 +1,24 @@
 import React from "react";
-import styled from "styled-components";
+import { Switch, Route } from "react-router-dom";
 
 import AnimalsContainer from "./components/container/AnimalsContainer";
+import Classification from "./Classification";
+
+import styled from "styled-components";
 
 const Main = () => {
   return (
     <MainWrapper>
       <Header>내가 좋아하는 동물</Header>
-      <AnimalsContainer />
+      <Switch>
+        <Route exact path="/">
+          <AnimalsContainer />
+        </Route>
+        <Route exact path="/classification">
+          <Classification />
+        </Route>
+      </Switch>
+      <Footer />
     </MainWrapper>
   );
 };
@@ -32,4 +43,8 @@ const Header = styled.header`
   font-size: 32px;
   color: #ffffff;
   background-color: #323232;
+`;
+
+const Footer = styled.footer`
+  height: 30px;
 `;

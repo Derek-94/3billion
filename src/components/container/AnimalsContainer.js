@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { animalsAPI } from "../../api/api";
+
 import Animals from "../presenter/Animals";
+import { animalsAPI } from "../../api/api";
+
+import loader from "../../img/loader.gif";
 
 const AnimalsContainer = () => {
   const [animals, setAnimals] = useState([]);
@@ -17,7 +20,7 @@ const AnimalsContainer = () => {
   return (
     <>
       {animals.length === 0 ? (
-        <div>loading...</div>
+        <img src={loader} alt="loading..." />
       ) : (
         <Animals animalList={animals} />
       )}
