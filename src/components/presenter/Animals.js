@@ -67,7 +67,21 @@ const Animals = ({ animalList }) => {
       <AnimalListWrapper>
         <AnimalList>
           {animalState.map((animal) => (
-            <h2 key={animal.id}>{animal.name}</h2>
+            <>
+              {!(animal.like || animal.dislike) && (
+                <AnimalText>{animal.name}</AnimalText>
+              )}
+              {animal.like && (
+                <AnimalText style={{ color: "#006ebf" }}>
+                  {animal.name}
+                </AnimalText>
+              )}
+              {animal.dislike && (
+                <AnimalText style={{ color: "#d74b00" }}>
+                  {animal.name}
+                </AnimalText>
+              )}
+            </>
           ))}
         </AnimalList>
         <ClassifyButton>좋아하는 동물들 나누기</ClassifyButton>
@@ -134,7 +148,7 @@ const DislikeButton = styled.button`
 `;
 
 const DislikeButtonActivate = styled.button`
-  background-color: orange;
+  background-color: #d74b00;
   color: white;
   width: 135px;
   height: 45px;
@@ -150,6 +164,14 @@ const AnimalList = styled.section`
   border: 1px solid red;
   width: 400px;
   height: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const AnimalText = styled.h1`
+  font-size: 24px;
 `;
 
 const ClassifyButton = styled.button`
